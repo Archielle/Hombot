@@ -3,7 +3,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, fil
     CallbackContext
 from Wallet import Wallet
 
-BOT_TOKEN = "6231904175:AAF_2Iee0SwnRC2wBBSfNZcd9iFAPsI8jMI"
+BOT_TOKEN = "TOKEN"
 OPERATION, DECISION, GET_CASH, PLUS_CASH, MINUS_CASH = range(5)
 
 user = Wallet(0.0)
