@@ -8,12 +8,14 @@ OPERATION, DECISION, GET_CASH, PLUS_CASH, MINUS_CASH = range(5)
 
 user = Wallet(0.0)
 
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     reply_keyboard = [[]]
     await update.message.reply_text(
         'Сколько денег?',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True))
     return GET_CASH
+
 
 async def get_cash(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user.cash = float(update.message.text)
@@ -25,7 +27,6 @@ async def get_cash(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 
 async def reply_to_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-
     if update.message.text.lower() == 'стоп':
         await update.message.reply_text('Отрубаюсь')
         return ConversationHandler.END
@@ -35,6 +36,7 @@ async def reply_to_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         'Жду следующую операцию',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True))
     return DECISION
+
 
 async def moves(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if update.message.text == 'Получил':
@@ -55,6 +57,7 @@ async def plus_cash(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         'Двигаемся дальше',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True))
     return OPERATION
+
 
 async def minus_cash(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user.cash -= float(update.message.text)
