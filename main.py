@@ -2,8 +2,9 @@ from telegram import ReplyKeyboardMarkup, Update, InputFile
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler, \
     CallbackContext
 from Wallet import Wallet
+from info import TOKEN
 
-BOT_TOKEN = "TOKEN"
+BOT_TOKEN = TOKEN
 OPERATION, DECISION, GET_CASH, PLUS_CASH, MINUS_CASH = range(5)
 
 user = Wallet(0.0)
@@ -18,7 +19,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 
 async def get_cash(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    user.cash = float(update.message.text)
+    try:
+        user.cash = float(update.message.text)
+    except:
+        reply_keyboard = [['ок']]
+        await update.message.reply_text(
+            'Неправильно, цифрами через точку',
+            reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True))
+        await update.message.reply_text()
+        return GET_CASH
     reply_keyboard = [['ок']]
     await update.message.reply_text(
         'Двигаемся дальше',
